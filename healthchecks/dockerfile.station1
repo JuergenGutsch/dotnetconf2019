@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
+WORKDIR /app
+
+COPY ./DncWeatherStats.Station1 ./DncWeatherStats.Station1/
+COPY ./DncWeatherStats.Common ./DncWeatherStats.Common/
+RUN dotnet restore ./DncWeatherStats.Station1
+RUN dotnet publish -c Release -o out ./DncWeatherStats.Station1
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/out ./
+COPY ./wa-weather.db ./wa-weather.db
+# port to expose
+EXPOSE 80
+ENTRYPOINT ["dotnet", "DncWeatherStats.Station1.dll"]

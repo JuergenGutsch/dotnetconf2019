@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "DncWeatherStats.Health";
+
+package Weather;
+
+// The greeting service definition.
+service Weather {
+  // Sends a greeting
+  rpc WeatherData (WeatherRequest) returns (WeatherReply);
+}
+
+// The request message containing the user's name.
+message WeatherRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings.
+message WeatherReply {
+  repeated WeatherData weatherData = 1;
+}
+  
+message WeatherData {
+  string weatherStationId = 1;
+  google.protobuf.Timestamp date = 2;
+  float avgTemperature = 3;
+  float minTemperature = 4;
+  float maxTemperature = 5;
+  float avgWindSpeed = 6;
+  float precipitaion = 7;
+}

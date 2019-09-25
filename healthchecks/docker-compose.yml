@@ -1,0 +1,53 @@
+version: '2.1'
+
+services:
+  WeatherHealth:
+    image: dnc/weatherhealth
+    build:
+      context: .
+      dockerfile: dockerfile.health 
+    ports:
+      - 5000:80
+      - 5001:81
+    depends_on:
+      - Bremerton
+      - CedarLake
+      - Kent
+      - Monroe 
+    links:
+      - Bremerton:station1
+      - CedarLake:station2
+      - Kent:station3
+      - Monroe:station4
+  
+  Bremerton:
+    image: dnc/weatherstation-bremerton
+    build:
+      context: .
+      dockerfile: dockerfile.station1  
+    ports:
+      - 5010:80
+  
+  CedarLake:
+    image: dnc/weatherstation-cedarlake
+    build:
+      context: .
+      dockerfile: dockerfile.station2  
+    ports:
+      - 5020:80
+  
+  Kent:
+    image: dnc/weatherstation-kent
+    build:
+      context: .
+      dockerfile: dockerfile.station3
+    ports:
+      - 5030:80
+  
+  Monroe :
+    image: dnc/weatherstation-monroe
+    build:
+      context: .
+      dockerfile: dockerfile.station4
+    ports:
+      - 5040:80
